@@ -1,29 +1,32 @@
 <!doctype html>
 
 <!-- ASSIGN OUR ANGULAR MODULE -->
-<html ng-app="scotchTodo">
+<html ng-app="emerilFoods">
 <head>
 	<!-- META -->
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1"><!-- Optimize mobile viewport -->
 
-	<title>Node/Angular Todo App</title>
+	<title>Node/Angular Food App</title>
 
 	<!-- SCROLLS -->
 	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"><!-- load bootstrap -->
 	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
 	<style>
 		html 					{ overflow-y:scroll; }
-		body 					{ padding-top:50px; }
-		#todo-list 				{ margin-bottom:30px; }
-		#todo-form 	 			{ margin-bottom:50px; }
-	</style>
+		body 					{ padding:50px; background: url("http://cdn1.tnwcdn.com/wp-content/blogs.dir/1/files/2012/10/Food.jpg");}
+		#food-list 				{ margin-bottom:30px; background-color:white}
+		#food-form 	 			{ margin-bottom:50px;}
+		#header                {color: dodgerblue;}
+		/*input                  {margin:10px}*/
+		/*button                 {margin:10px}*/
+		</style>
 
 	<!-- SPELLS -->
 	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular.min.js"></script><!-- load angular -->
 
 	<script src="js/controllers/main.js"></script> <!-- load up our controller -->
-	<script src="js/services/todos.js"></script> <!-- load our todo service -->
+	<script src="js/services/foods.js"></script> <!-- load our food service -->
 	<script src="js/core.js"></script> <!-- load our main application -->
 
 </head>
@@ -31,50 +34,69 @@
 <body ng-controller="mainController">
 	<div class="container">
 
-		<!-- HEADER AND TODO COUNT -->
-		<div class="jumbotron text-center">
-			<h1>I'm a Todo-aholic <span class="label label-info">{{ todos.length }}</span></h1>
+		<!-- HEADER AND Food COUNT -->
+		<div id="header" class="jumbotron text-center">
+			<h1>Emeril Foods <span class="label label-warning">{{ foods.length }}</span></h1>
 		</div>
 
-		<!-- TODO LIST -->
-		<div id="todo-list" class="row">
-			<div class="col-sm-4 col-sm-offset-4">
-
-				
-
-				<!-- LOOP OVER THE TODOS IN $scope.todos -->
-				<div class="checkbox" ng-repeat="todo in todos">
+		<!-- Food LIST -->
+		<div id="food-list" class="row">
+			<div class="col-sm-5 col-sm-offset-1">
+				<!-- LOOP OVER THE Foods IN $scope.foods -->
+				<div class="checkbox row" ng-repeat="food in foods">
 					<label>
-						<input type="checkbox" ng-click="deleteTodo(todo._id)"> {{ todo.text }}
+						<input type="checkbox" ng-click="deleteFood(food._id)">
+						<div class="col-xs-6">
+						{{ food.text }}
+						</div>
+						<div class="col-xs-6"> $
+						{{food.price}}
+						</div>
 					</label>
 				</div>
-
-				<p class="text-center" ng-show="loading">
+				<hr/>
+				<div class="text-center row" ng-show="loading">
 					<span class="fa fa-spinner fa-spin fa-3x"></span>
-				</p>
-
-			</div>
-		</div>
-
-		<!-- FORM TO CREATE TODOS -->
-		<div id="todo-form" class="row">
-			<div class="col-sm-8 col-sm-offset-2 text-center">
-				<form>
-					<div class="form-group">
-
-						<!-- BIND THIS VALUE TO formData.text IN ANGULAR -->
-						<input type="text" class="form-control input-lg text-center" placeholder="I want to buy a puppy that will love me forever" ng-model="formData.text">
+				</div>
+				<div class="row">
+					<div class="col-sm-6">
+						<button type="submit" class="btn btn-success btn" ng-click="totalPrice()">Calculate Total</button>
 					</div>
+					<div class="col-sm-6">
+						<label ng-show="total">Customer owes: ${{total}}</label>
+						<br/>
+						<label ng-show="change && total">Emeril owes: $ {{change}}</label>
 
-					<!-- createToDo() WILL CREATE NEW TODOS -->
-					<button type="submit" class="btn btn-primary btn-lg" ng-click="createTodo()">Add</button>
-				</form>
+					</div>
+				</div>
+				<hr/>
+
+				<div class="row">
+					<h4 class="text-center">Customer Payment</h4>
+					<div class="col-sm-6 form-group">
+						<input type="number" min="0" class="form-control text-center" placeholder="Enter Payment Received" ng-model="payment">
+					</div>
+					<button type="submit" class="btn btn-info btn col-sm-6" ng-click="totalChange()">Calculate Change</button>
+				</div>
 			</div>
-		</div>
 
-		<div class="text-center text-muted">
-			<p>A demo by <a href="http://scotch.io">Scotch</a>.</p>
-			<p>Read the <a href="http://scotch.io/tutorials/javascript/creating-a-single-page-todo-app-with-node-and-angular">tutorial</a>.</p>
+			<!-- FORM TO CREATE Foods -->
+			<div id="food-form" class="row">
+				<div class="col-xs-3 text-center">
+					<h3>Add Order</h3>
+					<form>
+						<div class="form-group">
+							<!-- BIND THIS VALUE TO formData.text IN ANGULAR -->
+							<input type="text" class="form-control input-lg text-center" placeholder="Burger" ng-model="formData.text">
+						</div>
+						<div class="form-group">
+							<input type="number" min="0" class="form-control input-lg text-center" placeholder="10.00" ng-model="formData.price">
+						</div>
+						<!-- createFood() WILL CREATE NEW Foods -->
+						<button type="submit" class="btn btn-success btn-lg" ng-click="createFood()">Add</button>
+					</form>
+				</div>
+			</div>
 		</div>
 
 	</div>
