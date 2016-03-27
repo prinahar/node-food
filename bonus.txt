@@ -1,0 +1,16 @@
+Features:
+1) Add food items to order
+2) Add prices for food item
+3) View updated Order after every entry
+4) Calculate total sale amount of order by clicking "Calculate Total" button.
+
+Bonus Features:
+1) Enter the customer payment amount.
+2) Calculate the amount owed after customer pays.
+    Reason:
+    This will help Emeril to make accurate and quick transactions.
+
+3) Changed background image and added some alignment, styling, placeholders to elements.
+   Reason:
+   Enhance look and feel.
+   Placeholders with clear instructions for ease of usage.
